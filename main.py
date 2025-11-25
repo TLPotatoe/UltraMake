@@ -6,7 +6,7 @@
 #    By: tlamit <titouan.lamit@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 21:23:48 by tlamit            #+#    #+#              #
-#    Updated: 2025/11/25 16:53:31 by tlamit           ###   ########.fr        #
+#    Updated: 2025/11/25 18:25:27 by tlamit           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,15 +104,19 @@ def main():
     if n_process.stdout:
         lines = [line for line in n_process.stdout if "Error" in line]
         if len(lines):
-            for line in [line for line in n_process.stdout if "Error" in line]:
-                if "Error!" in line:
-                    print()
-                print(line, end="")
+            for line in lines:
+                if ("Error!" in line):
+                    print(f"\n{FG_BRIGHT_RED}{line}{FG_DEFAULT}", end="")
+                else:
+                    print(line, end="")
         else:
             print(f"{FG_BRIGHT_GREEN}Norminette OK.")
     n_process.stdout.close()
-
     _, stderr = process.communicate()
+    if stderr:
+        print(f"\n{FG_BRIGHT_RED}--- STDERR ---")
+        print(f"{FG_BRIGHT_RED}{stderr}", end="")
+        return
 
 
 if __name__ == "__main__":
