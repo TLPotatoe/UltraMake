@@ -6,7 +6,7 @@
 #    By: tlamit <titouan.lamit@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 21:23:48 by tlamit            #+#    #+#              #
-#    Updated: 2025/11/26 18:43:19 by tlamit           ###   ########.fr        #
+#    Updated: 2025/11/27 23:46:08 by tlamit           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +72,9 @@ def run_make(cwd: str):
     all_cfiles = add_files(cwd)
     cc_files = []
     command = "make re && make clean"
+    if "DEBUG" in sys.argv:
+        command = command[:8] + "DEBUG=True " + command[8:]
+    print(command)
     t_start = time.perf_counter()
     process = run_subp(command, cwd)
 
