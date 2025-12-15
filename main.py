@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    main.py                                            :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: tlamit <titouan.lamit@gmail.com>           +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/11/20 21:23:48 by tlamit            #+#    #+#              #
-#    Updated: 2025/11/27 23:46:08 by tlamit           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 import os
 import sys
 from math import floor
@@ -127,9 +115,15 @@ def run_norm(cwd: str):
         print(f"{FG_BRIGHT_RED}{stderr}", end="")
         return
 
+def update():
+    import requests
+    from version import VERSION
 
 def main():
     current_directory = os.getcwd()
+    if not "Makefile" in os.listdir(current_directory):
+        print(f"{FG_BRIGHT_RED}No MakeFile found in ./{FG_DEFAULT}")
+        return
     run_make(current_directory)
 
     if "-n" in sys.argv:
