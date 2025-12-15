@@ -6,7 +6,7 @@
 #    By: tlamit <titouan.lamit@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 21:23:48 by tlamit            #+#    #+#              #
-#    Updated: 2025/11/26 22:20:24 by tlamit           ###   ########.fr        #
+#    Updated: 2025/12/15 18:19:07 by tlamit           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -127,9 +127,15 @@ def run_norm(cwd: str):
         print(f"{FG_BRIGHT_RED}{stderr}", end="")
         return
 
+def update():
+    import requests
+    from version import VERSION
 
 def main():
     current_directory = os.getcwd()
+    if not "Makefile" in os.listdir(current_directory):
+        print(f"{FG_BRIGHT_RED}No MakeFile found in ./{FG_DEFAULT}")
+        return
     run_make(current_directory)
 
     if "-n" in sys.argv:

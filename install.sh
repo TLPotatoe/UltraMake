@@ -2,9 +2,40 @@
 
 # Get the absolute path to the main.py script
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+VENV_DIR="$SCRIPT_DIR/.venv"
 MAIN_PY_PATH="$SCRIPT_DIR/main.py"
+REQUIREMENTS_PATH="$SCRIPT_DIR/requirements.txt"
 
-ALIAS_CMD="alias umake=\"python3 $MAIN_PY_PATH\""
+# --- Create Virtual Environment and Install Dependencies ---
+
+# Check if python3 is available
+if ! command -v python3 &> /dev/null
+then
+    echo "python3 could not be found, please install it."
+    exit 1
+fi
+
+# Create virtual environment
+echo "Creating virtual environment in $VENV_DIR..."
+python3 -m venv "$VENV_DIR" --upgrade || {
+    echo "Error: Failed to create virtual environment."
+    echo "On Debian/Ubuntu systems, you may need to run: sudo apt install python3-venv"
+    exit 1
+}
+
+# Check if venv was created
+if [ ! -f "$VENV_DIR/bin/python" ]; then
+    echo "Error: Virtual environment created but python binary not found."
+    exit 1
+fi
+
+# Install dependencies
+echo "Installing dependencies from $REQUIREMENTS_PATH..."
+"$VENV_DIR/bin/python" -m pip install -r "$REQUIREMENTS_PATH"
+
+# --- Alias Configuration ---
+
+ALIAS_CMD="alias umake=\"$VENV_DIR/bin/python $MAIN_PY_PATH\""
 ALIAS_NAME="umake"
 
 # List of shell configuration files to check
@@ -41,7 +72,7 @@ add_alias() {
     echo "Adding alias to $config_file..."
     # For fish shell, the syntax is: alias <name> '<command>'
     if [[ "$config_file" == *"/fish/config.fish" ]]; then
-        local fish_alias="alias $alias_name 'python3 $MAIN_PY_PATH'"
+        local fish_alias="alias $alias_name '$VENV_DIR/bin/python $MAIN_PY_PATH'"
         echo -e "\n# Alias for UltraMake\n$fish_alias" >> "$config_file"
     else
         # Standard bash/zsh/sh syntax
