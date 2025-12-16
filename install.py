@@ -20,16 +20,29 @@ def apply_alias(path: str) -> bool:
 	path = os.path.join(HOME, path)
 	if not os.path.exists(path):
 		return False
-	with open(path, "r+") as f:
-		content = f.readlines()
-		presence = [line for line in content if ALIAS in line]
-		if len(presence):
-			content[content.index(presence[0])] = COMMAND
-		else:
-			content.append(COMMAND)
-		f.seek(0)
-		f.writelines(content)
-		return True
+
+	with open(path, "r") as f:
+		lines = f.readlines()
+
+	alias_line_index = -1
+	for i, line in enumerate(lines):
+		if ALIAS in line:
+			alias_line_index = i
+			break
+
+	new_command = COMMAND + '\n'
+
+	if alias_line_index != -1:
+		lines[alias_line_index] = new_command
+	else:
+		if lines and not lines[-1].endswith('\n'):
+			lines[-1] += '\n'
+		lines.append(new_command)
+
+	with open(path, "w") as f:
+		f.writelines(lines)
+
+	return True
 
 
 print(f'\nCreating venv at "{VENV_DIR}"')
