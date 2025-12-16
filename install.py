@@ -1,4 +1,5 @@
 import os
+from cursor_utils import *
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 VENV_DIR = os.path.join(SCRIPT_DIR, '.venv')
@@ -39,7 +40,7 @@ if (not os.path.exists(PYTHON)):
     exit(1)
 print("Done.")
 
-print("\nInstalling requirements...")
+print(f"\nInstalling requirements...{FG_BLACK}")
 os.system(f"\"{PYTHON}\" -m pip install -r \"{REQ_PATH}\"")
 print("Done.")
 
