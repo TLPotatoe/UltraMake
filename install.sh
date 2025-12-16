@@ -11,8 +11,8 @@ git pull origin master
 
 if ! command -v python3 &> /dev/null
 then
-    echo "python3 could not be found, please install it."
-    exit 1
+	echo "python3 could not be found, please install it."
+	exit 1
 fi
 
 python3 "$INSTALLER_PY_PATH"

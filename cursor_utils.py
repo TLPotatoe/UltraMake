@@ -7,35 +7,35 @@ RESET = "\x1b[0m"
 ### CURSOR MOVEMENT CODES (CUP) ###
 
 def CURSOR_UP(n: int) -> str:
-    return f"\x1b[{n}A"
+	return f"\x1b[{n}A"
 
 def CURSOR_DOWN(n: int) -> str:
-    return f"\x1b[{n}B"
+	return f"\x1b[{n}B"
 
 def CURSOR_FORWARD(n: int) -> str:
-    return f"\x1b[{n}C"
+	return f"\x1b[{n}C"
 
 def CURSOR_BACK(n: int) -> str:
-    return f"\x1b[{n}D"
+	return f"\x1b[{n}D"
 
 def CURSOR_NEXT_LINE(n: int) -> str:
-    return f"\x1b[{n}E"
+	return f"\x1b[{n}E"
 
 def CURSOR_PREVIOUS_LINE(n: int) -> str:
-    return f"\x1b[{n}F"
+	return f"\x1b[{n}F"
 
 def CURSOR_HORIZONTAL_ABSOLUTE(n: int) -> str:
-    return f"\x1b[{n}G"
+	return f"\x1b[{n}G"
 
 def CURSOR_TO(row: int, col: int) -> str:
-    return f"\x1b[{row};{col}H"
+	return f"\x1b[{row};{col}H"
 
 
 def CLEAR(mode: int) -> str:
-    return f"\x1b[{mode}J"
+	return f"\x1b[{mode}J"
 
 def CLEARL(mode: int) -> str:
-    return f"\x1b[{mode}K"
+	return f"\x1b[{mode}K"
 
 HOME = "\x1b[H"
 SAVE_CURSOR = "\x1b[s"
