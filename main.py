@@ -104,7 +104,7 @@ def run_make(cwd: str):
 
 
 def run_norm(cwd: str):
-    command = f"norminette {cwd}"
+    command = f"norminette {cwd} --use-gitignore"
     n_process = run_subp(command, cwd)
     if n_process.stdout:
         lines = [line for line in n_process.stdout if "Error" in line]
@@ -158,6 +158,7 @@ def main():
 
 if __name__ == "__main__":
     os.system("clear")
+    print(f"{FG_BRIGHT_CYAN}Ultra_Make | {VERSION}{FG_DEFAULT}")
     # print(FG_BRIGHT_CYAN, """
     #        _                                       _
     #       | |  _                                  | |
@@ -166,7 +167,6 @@ if __name__ == "__main__":
     # | |_| | | | |_| |   / ___ |_______| | | / ___ |  _ (| ____|
     # |____/ \_) \__)_|   \_____(_______)_|_|_\_____|_| \_)_____)
     # """)
-    print(f"{FG_BRIGHT_CYAN}Ultra_Make | {VERSION}{FG_DEFAULT}")
     main()
     check_update()
     print(FG_DEFAULT)
