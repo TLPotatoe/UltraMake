@@ -16,4 +16,4 @@ then
     exit 1
 fi
 
-python3 $INSTALLER_PY_PATH
+python3 "$INSTALLER_PY_PATH"

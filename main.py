@@ -169,7 +169,7 @@ if __name__ == "__main__":
     # | |_| | | | |_| |   / ___ |_______| | | / ___ |  _ (| ____|
     # |____/ \_) \__)_|   \_____(_______)_|_|_\_____|_| \_)_____)
     # """)
-    print(f"{FG_BRIGHT_CYAN}Ultra_Make")
+    print(f"{FG_BRIGHT_CYAN}Ultra_Make | {__file__}")
     main()
     check_update()
     print(FG_DEFAULT)
