@@ -42,7 +42,7 @@ print("Done.")
 
 print(f"\nInstalling requirements...{FG_BLACK}")
 os.system(f"\"{PYTHON}\" -m pip install -r \"{REQ_PATH}\"")
-print("Done.")
+print(f"{FG_DEFAULT}Done.")
 
 print("\nApplying alias...")
 alias_added = 0
