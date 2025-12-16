@@ -1,14 +1,23 @@
 import os
 import sys
-from math import floor
 import time
 import subprocess
-from cursor_utils import *
 
+from cursor_utils import *
+from version import VERSION
+
+import requests
 
 def add_files(path: str) -> list[str]:
     cfiles = []
+    exclude = []
+    if os.path.exists(os.path.join(path, ".gitignore")):
+        with open(os.path.join(path, ".gitignore"), "r") as f:
+            exclude = f.readlines()
+            exclude = [line.strip() for line in exclude]
     for entry in os.scandir(path):
+        if entry.name in exclude:
+            continue
         if entry.is_dir():
             cfiles.extend(add_files(entry.path))
         if entry.is_file() and entry.name.endswith(".c"):
@@ -59,7 +68,7 @@ def run_subp(command: str, cwd: str = None) -> subprocess.Popen:
 def run_make(cwd: str):
     all_cfiles = add_files(cwd)
     cc_files = []
-    command = "make re && make clean"
+    command = "make re --trace && make clean"
     if "DEBUG" in sys.argv:
         command = command[:8] + "DEBUG=True " + command[8:]
     print(command)
@@ -84,11 +93,10 @@ def run_make(cwd: str):
             f"\nProcess finished with exit code {process.returncode}",
             FG_DEFAULT,
         )
-    newlist = []
-    for i in cc_files:
-        for x in all_cfiles:
-            if i[i.rfind("/") + 1 : -1] == x[x.rfind("/") + 1 :]:
-                newlist.append(x)
+    newlist = [
+            files for files in all_cfiles if 
+            len([file for file in cc_files if os.path.basename(files) in file])
+        ]
     if len(set(all_cfiles) - set(newlist)):
         print(FG_RED, "Files not compiled or not included:")
         for file in set(all_cfiles) - set(newlist):
@@ -115,9 +123,29 @@ def run_norm(cwd: str):
         print(f"{FG_BRIGHT_RED}{stderr}", end="")
         return
 
+def check_update() -> bool:
+    url = "https://raw.githubusercontent.com/TLPotatoe/UltraMake/refs/heads/master/version.py"
+    response = requests.get(url)
+    if response.status_code == 200:
+        content = response.text
+        if content[11:-1] == VERSION:
+            return
+        answer = input("An update is available. Update? [Y/n]")
+        if (answer.strip() == "" or answer.strip().lower() == 'y'):
+            update()
+    else:
+        return
+
 def update():
-    import requests
-    from version import VERSION
+    result = subprocess.run(
+        "git pull origin master",
+        check=True, shell=True, text=True, capture_output=True
+    )
+    if "Already up to date." in result.stdout:
+        print(f"{FG_YELLOW}Somehow it's already up-to-date..?{FG_DEFAULT}\nExiting.")
+        return
+    subprocess.run (["python3", "install.py"], shell=True)
+
 
 def main():
     current_directory = os.getcwd()
@@ -140,10 +168,7 @@ if __name__ == "__main__":
     # | |_| | | | |_| |   / ___ |_______| | | / ___ |  _ (| ____|
     # |____/ \_) \__)_|   \_____(_______)_|_|_\_____|_| \_)_____)
     # """)
-    print(
-        f"""
-{FG_BRIGHT_CYAN}Ultra - Make
-"""
-    )
+    print(f"{FG_BRIGHT_CYAN}Ultra_Make")
     main()
+    check_update()
     print(FG_DEFAULT)
