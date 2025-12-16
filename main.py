@@ -138,14 +138,11 @@ def check_update() -> bool:
 
 def update():
     cwd = os.path.dirname(__file__)
-    result = subprocess.run(
-        "git pull origin master",
-        cwd=cwd, check=True, shell=True, text=True, capture_output=True
-    )
-    if "Already up to date." in result.stdout:
-        print(f"{FG_BRIGHT_YELLOW}Somehow it's already up-to-date..?{FG_DEFAULT}\nExiting.")
+    subprocess.run("git pull origin master", shell=True, cwd=cwd)
+    result = subprocess.run("bash install.sh", shell=True, cwd=cwd)
+    if result.returncode != 0:
+        print(f"{FG_BRIGHT_RED}Update failed.{FG_DEFAULT}")
         return
-    subprocess.run (["python3", "install.py"], shell=True, cwd=cwd)
     print(f"{FG_BRIGHT_GREEN}Update successful.{FG_DEFAULT}")
 
 def main():
@@ -169,7 +166,7 @@ if __name__ == "__main__":
     # | |_| | | | |_| |   / ___ |_______| | | / ___ |  _ (| ____|
     # |____/ \_) \__)_|   \_____(_______)_|_|_\_____|_| \_)_____)
     # """)
-    print(f"{FG_BRIGHT_CYAN}Ultra_Make | {__file__}")
+    print(f"{FG_BRIGHT_CYAN}Ultra_Make | {VERSION}{FG_DEFAULT}")
     main()
     check_update()
     print(FG_DEFAULT)

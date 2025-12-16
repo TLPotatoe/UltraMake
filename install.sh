@@ -7,7 +7,8 @@ INSTALLER_PY_PATH="$SCRIPT_DIR/install.py"
 MAIN_PY_PATH="$SCRIPT_DIR/main.py"
 REQUIREMENTS_PATH="$SCRIPT_DIR/requirements.txt"
 
-# --- Create Virtual Environment and Install Dependencies ---
+git stash
+git pull origin master
 
 # Check if python3 is available
 if ! command -v python3 &> /dev/null
