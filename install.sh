@@ -2,11 +2,10 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 VENV_DIR="$SCRIPT_DIR/.venv"
-INSTALLER_PY_PATH="$SCRIPT_DIR/install.py"
-MAIN_PY_PATH="$SCRIPT_DIR/main.py"
-REQUIREMENTS_PATH="$SCRIPT_DIR/requirements.txt"
+INSTALLER_PY_PATH="$SCRIPT_DIR/src/install.py"
+MAIN_PY_PATH="$SCRIPT_DIR/src/main.py"
 
-git stash
+# git stash
 git pull origin master
 
 if ! command -v python3 &> /dev/null
