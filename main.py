@@ -104,7 +104,7 @@ def run_make(cwd: str):
 
 
 def run_norm(cwd: str):
-	command = f"norminette {cwd} --use-gitignore"
+	command = f"norminette '{cwd}' --use-gitignore"
 	n_process = run_subp(command, cwd)
 	if n_process.stdout:
 		lines = [line for line in n_process.stdout if "Error" in line]
@@ -167,6 +167,9 @@ if __name__ == "__main__":
 	# | |_| | | | |_| |   / ___ |_______| | | / ___ |  _ (| ____|
 	# |____/ \_) \__)_|   \_____(_______)_|_|_\_____|_| \_)_____)
 	# """)
+	if ("-help" in sys.argv or "--help" in sys.argv):
+		print(f"Aller voir tlamit pour d'info pour l'instant.")
+		exit(0)
 	main()
 	check_update()
 	print(FG_DEFAULT)
